@@ -11,6 +11,7 @@ Source0  : file:///aot/build/clearlinux/packages/gitstatusd/gitstatusd-1.4.4.tar
 Summary  : No detailed summary available
 Group    : Development/Tools
 License  : GPL-2.0+
+Requires: gitstatusd-bin = %{version}-%{release}
 Requires: gitstatusd-data = %{version}-%{release}
 BuildRequires : Z3-dev
 BuildRequires : Z3-staticdev
@@ -97,6 +98,15 @@ BuildRequires : zstd-staticdev
 **gitstatus** is a 10x faster alternative to `git status` and `git describe`. Its primary use
 case is to enable fast git prompt in interactive shells.
 
+%package bin
+Summary: bin components for the gitstatusd package.
+Group: Binaries
+Requires: gitstatusd-data = %{version}-%{release}
+
+%description bin
+bin components for the gitstatusd package.
+
+
 %package data
 Summary: data components for the gitstatusd package.
 Group: Data
@@ -115,7 +125,7 @@ unset https_proxy
 unset no_proxy
 export SSL_CERT_FILE=/var/cache/ca-certs/anchors/ca-certificates.crt
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1616962737
+export SOURCE_DATE_EPOCH=1616963144
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -156,18 +166,21 @@ export CCACHE_BASEDIR=/builddir/build/BUILD
 
 
 %install
-export SOURCE_DATE_EPOCH=1616962737
+export SOURCE_DATE_EPOCH=1616963144
 rm -rf %{buildroot}
 %make_install
 
 %files
 %defattr(-,root,root,-)
 
+%files bin
+%defattr(-,root,root,-)
+/usr/share/gitstatusd/usrbin/gitstatusd
+
 %files data
 %defattr(-,root,root,-)
 /usr/share/gitstatusd/build.info
 /usr/share/gitstatusd/gitstatus.plugin.sh
 /usr/share/gitstatusd/gitstatus.prompt.sh
-/usr/share/gitstatusd/gitstatusd
 /usr/share/gitstatusd/install
 /usr/share/gitstatusd/install.info
